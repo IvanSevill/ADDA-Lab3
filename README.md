@@ -1,4 +1,4 @@
-# ADDA2-Lab2-Base
+# ADDA2-Lab2
 Base para copiar y pegar el proyecto de laboratorio número 3 de la asignatura ADDA de la Universidad de Sevilla
 
 # Práctica Individual 3 – Ejercicios PLE/AG
