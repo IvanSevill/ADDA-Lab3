@@ -18,6 +18,7 @@ public class SolucionAlmacen {
 
 	private SolucionAlmacen(List<Integer> ls) {
 		//TODO
+		// https://github.com/IvanSevill/ADDA2-Lab2.git
 	}
 	
 	@Override
