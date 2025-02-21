@@ -45,7 +45,8 @@ public class DatosMulticonjunto {
 		String2.toConsole("Conjunto de Entrada: %s\nSuma objetivo: %d", numeros, SUMA);
 	}
 
+	// Test de la lectura del fichero
 	public static void main(String[] args) {
-		iniDatos("resources/ejemplo1/ejemplo1.txt");
+		iniDatos("ficheros/p3/ejemplo1_1.txt");
 	}
 }

@@ -8,6 +8,7 @@ import us.lsi.gurobi.GurobiLp;
 import us.lsi.gurobi.GurobiSolution;
 import us.lsi.solve.AuxGrammar;
 
+
 public class Ejemplo1 {
 
 	// Dado un conjunto de números enteros estrictamente positivos, encontrar el
@@ -33,40 +34,45 @@ public class Ejemplo1 {
 
 	// TIPO VARIABLES
 	// int Xi, i = 0,1,...,m-1
-
+	
 	public static Integer suma;
 	public static List<Integer> elementos;
-
+	
 	public static Integer getSuma() {
 		return suma;
 	}
-
+	
 	public static Integer getNumElementos() {
 		return elementos.size();
 	}
-
+	
 	public static Integer getElemento(Integer i) {
 		return elementos.get(i);
 	}
-
+	
 	public static Integer getMultiplicidad(Integer i) {
 		return suma / elementos.get(i);
 	}
-
+	
 	public static void ejemplo1_model(String fichero, String ficheroLsi, String ficheroLp) throws IOException {
 		DatosMulticonjunto.iniDatos(fichero);
+//		DatosMulticonjunto.iniDatos("ficheros/p3/ejemplo1_1.txt");
 
 		suma = DatosMulticonjunto.getSuma();
 		elementos = DatosMulticonjunto.getListaNumeros();
-
-		AuxGrammar.generate(Ejemplo1.class, ficheroLsi, ficheroLp);
+		
+		//si cambia el fichero de datos de entrada, cambiar tambien el nº del .lp para no sobreescribirlo
+//		AuxGrammar.generate(Ejemplo1PLE.class,"lsi_models/Ejemplo1.lsi","gurobi_models/Ejemplo1-2.lp");
+		AuxGrammar.generate(Ejemplo1.class,ficheroLsi,ficheroLp);
 		GurobiSolution solution = GurobiLp.gurobi(ficheroLp);
 		Locale.setDefault(Locale.of("en", "US"));
-		System.out.println(solution.toString((s, d) -> d > 0.));
+		System.out.println(solution.toString((s,d)->d>0.));
 	}
-
-	public static void main(String[] args) throws IOException {
-		ejemplo1_model("resources/ejemplo1/ejemplo1.txt", "modeloslsi/ejemplo1.lsi", "modeloslp/Ejemplo1-2.lp");
+	
+	public static void main(String[] args) throws IOException {	
+		Integer num = 1;
+		ejemplo1_model("resources/ejemplo1/ejemplo1_"+num+".txt","resources/modeloslsi/ejemplo1.lsi","resources/modeloslp/ejemplo1_"+num+".lp");
 	}
-
+	
 }
+
