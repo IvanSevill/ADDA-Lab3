@@ -1,13 +1,14 @@
 head section
 
-Integer getNumProductos() 
+Integer getNumProductos()
 Integer getNumAlmacenes()
 Integer getMetrosCubicosProducto(Integer i)
 Integer getMetrosCubicosAlmacen(Integer j)
-Integer sonIncompatibles(Integer i, Integer s)
+Boolean sonIncompatibles(Integer i,Integer s)
 
-Integer n = getNumProductos() 
-Integer m = getNumAlmacenes() 
+Integer n = getNumProductos()
+Integer m = getNumAlmacenes()
+
 
 goal section
 
@@ -15,13 +16,10 @@ max sum(x[i,j], i in 0 .. n, j in 0 .. m)
 
 constraints section
 
-sum( getMetrosCubicosProducto(i) x[i,j], i in 0 .. n ) <= getMetrosCubicosAlmacen(j), j in 0 .. m
-sum( x[i,j], j in 0 .. m) <= 1, i in 0 .. n
-x[i,j]+x[s,j] <= 1, i in 0 .. n, s in 0 .. n | sonIncompatibles(i,s), j in 0 .. m
-
-bounds section
-
-bin 
-x[i,j], i in 0 .. n, j in 0 .. m
+sum( getMetrosCubicosProducto(i) x[i,j], i in 0 .. n ) <= getMetrosCubicosAlmacen(j), j in 0 .. m	// Capacidad de los almacenes
+sum( x[i,j] , j in 0 .. m ) <= 1 , i in 0 .. n														// Cada producto se almacena en un solo almacen o no se almacena
+x[i,j]+x[s,j]<=1 , i in 0 .. n ,  j in 0 .. m , s in 0 .. n | sonIncompatibles( i, s) 				// Restricciones de incompatibilidad
 
 
+
+bin  x[i,j], i in 0 .. n , j in 0 .. m			// [i,j] es 1 si el producto i se almacena en el almacen j, 0 en otro caso
