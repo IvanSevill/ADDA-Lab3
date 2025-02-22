@@ -29,7 +29,6 @@ public class TestDatosAlmacenes01 {
 		return DatosAlmacenes.sonIncompatibles(i, j);
 	}
 
-	@SuppressWarnings("unused")
 	private static void generaLpConAuxGrammar(String ficheroLsi, String ficheroLp) throws IOException {
 		System.out.println("\n---------------------------------------------------");
 		System.out.println("\n<--- Transformacion de AuxGrammar --->\n");
@@ -38,7 +37,6 @@ public class TestDatosAlmacenes01 {
 
 	}
 
-	@SuppressWarnings("unused")
 	private static GurobiSolution ejecucionGurobi(String ficheroLp) throws IOException {
 		System.out.println("\n<--- Ejecucion de Gurobi --->\n");
 		GurobiSolution solution = GurobiLp.gurobi(ficheroLp);
