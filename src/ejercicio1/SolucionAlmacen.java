@@ -12,7 +12,7 @@ import us.lsi.gurobi.GurobiSolution;
 import us.lsi.solve.AuxGrammar;
 
 public class SolucionAlmacen {
-	
+    private static final Integer EJERCICIO = 1;
 	public static SolucionAlmacen create(List<Integer> ls) {
 		return new SolucionAlmacen(ls);
 	}
@@ -21,16 +21,39 @@ public class SolucionAlmacen {
 	private Map<Producto, Integer> solucion;
 
 	private SolucionAlmacen(List<Integer> ls) {
+		for (Integer num : ls) {
 
+			String datosEntrada = "resources/ejercicio"+EJERCICIO+"/DatosEntrada" + num + ".txt";
+			String lsi = "resources/modeloslsi/ejercicio"+EJERCICIO+".lsi";
+			String lp = "resources/modeloslp/ejercicio"+EJERCICIO+"_" + num + ".lp";
+
+			imprimeCabecera(datosEntrada);
+
+			try {
+				ejercicio1(datosEntrada, lsi, lp);
+				
+//				this.solucion = s.values.entrySet().stream()
+//				.filter(e -> e.getValue() > 0)
+//				.collect(Collectors.toMap(
+//						e -> DatosAlmacenes.getProducto(Integer.valueOf(e.getKey().split("_")[1])),
+//						e -> Integer.valueOf(e.getKey().split("_")[1])));
+//
+//				this.numproductos = solucion.size();
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
-	
+
 	@Override
 	public String toString() {
-		return solucion.entrySet().stream()
-		.map(p -> p.getKey().producto()+": Almacen "+p.getValue())
-		.collect(Collectors.joining("\n", "Reparto de productos y almacen en el que se coloca cada uno de ellos:\n", String.format("\nProductos colocados: %d", numproductos)));
+		return solucion.entrySet().stream().map(p -> p.getKey().producto() + ": Almacen " + p.getValue())
+				.collect(Collectors.joining("\n",
+						"Reparto de productos y almacen en el que se coloca cada uno de ellos:\n",
+						String.format("\nProductos colocados: %d", numproductos)));
 	}
-	
 
 	public static Integer getNumProductos() {
 		return DatosAlmacenes.getNumProductos();
@@ -78,7 +101,7 @@ public class SolucionAlmacen {
 	private static void imprimeCabecera(String datosEntrada) {
 
 		System.out.println("\n---------------------------------------------------------------------------------------");
-		System.out.println(" | Ejecutando ejercicio1 con datos de entrada: " + datosEntrada + "|");
+		System.out.println(" | Ejecutando ejercicio "+EJERCICIO+" con datos de entrada: " + datosEntrada + "|");
 		System.out.println("---------------------------------------------------------------------------------------\n");
 	}
 
@@ -90,23 +113,7 @@ public class SolucionAlmacen {
 	}
 
 	public static void main(String[] args) {
-		Integer max = 3;
-		for (int num = 1; num < max + 1; num++) {
-
-			String datosEntrada = "resources/ejercicio1/DatosEntrada" + num + ".txt";
-			String lsi = "resources/modeloslsi/ejercicio1.lsi";
-			String lp = "resources/modeloslp/ejercicio1_" + num + ".lp";
-
-			imprimeCabecera(datosEntrada);
-
-			try {
-				ejercicio1(datosEntrada, lsi, lp);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-
+		SolucionAlmacen s = SolucionAlmacen.create(List.of(1, 2, 3));
 	}
+
 }
