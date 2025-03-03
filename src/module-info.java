@@ -5,6 +5,8 @@
  * 
  */
 module PI3_sol {
+	exports ejemplo1;
+	exports ejemplo2;
 	exports ejercicio1;
 	exports ejercicio2;
 	exports ejercicio3;
