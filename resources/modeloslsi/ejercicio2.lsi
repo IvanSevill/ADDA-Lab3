@@ -1,25 +1,34 @@
-head section
+	
+	head section
 
-Integer getNumProductos()
-Integer getNumAlmacenes()
-Integer getMetrosCubicosProducto(Integer i)
-Integer getMetrosCubicosAlmacen(Integer j)
-Boolean sonIncompatibles(Integer i,Integer s)
+	Integer getNumCursos()
+	Integer getNumAreas()
+	Integer getPresupuestoTotal()
 
-Integer n = getNumProductos()
-Integer m = getNumAlmacenes()
+	Integer getCoste(Integer i)
+	Integer getArea(Integer i)
+	Integer getRelevancia(Integer i)
+	Integer getDuracion(Integer i)
 
-
-goal section
-
-max sum(x[i,j], i in 0 .. n, j in 0 .. m)
-
-constraints section
-
-sum( getMetrosCubicosProducto(i) x[i,j], i in 0 .. n ) <= getMetrosCubicosAlmacen(j), j in 0 .. m	// Capacidad de los almacenes
-sum( x[i,j] , j in 0 .. m ) <= 1 , i in 0 .. n														// Cada producto se almacena en un solo almacen o no se almacena
-x[i,j]+x[s,j]<=1 , i in 0 .. n ,  j in 0 .. m , s in 0 .. n | sonIncompatibles( i, s) 				// Restricciones de incompatibilidad
+	Integer n = getNumCursos()
+	Integer m = getNumAreas()
+	Integer x = getPresupuestoTotal()
 
 
+	goal section
+	
+	max sum (getRelevancia(i) x[i], i in 0 .. n) 					
 
-bin  x[i,j], i in 0 .. n , j in 0 .. m			// [i,j] es 1 si el producto i se almacena en el almacen j, 0 en otro caso
+
+
+	constraints section
+	
+	x[i] > 0, i in 0 .. n									
+	x[i] <= x[j], i in 0 .. n | getArea(j) = 0				
+	sum(getDuracion(i)  x[i], i in 0 .. n) >= 20					
+	sum(getCoste(i) x[i], i in 0 .. n) <= x	 
+		
+		
+		
+	int 
+	x[i], i in 0 .. n  

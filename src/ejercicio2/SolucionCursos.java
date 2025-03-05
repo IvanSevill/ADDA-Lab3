@@ -6,8 +6,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import ejercicio1.DatosAlmacenes;
-import ejercicio1.SolucionAlmacen;
 import us.lsi.gurobi.GurobiLp;
 import us.lsi.gurobi.GurobiSolution;
 import us.lsi.solve.AuxGrammar;
@@ -38,26 +36,26 @@ public class SolucionCursos {
 
 			imprimeCabecera(datosEntrada);
 			try {
-				GurobiSolution s = ejercicio2(datosEntrada, lsi, lp);
+				ejercicio2(datosEntrada, lsi, lp);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public static GurobiSolution ejercicio2(String datosEntrada, String ficheroLsi, String ficheroLp)
+	public static void ejercicio2(String datosEntrada, String ficheroLsi, String ficheroLp)
 			throws IOException {
 		DatosCursos.iniDatos(datosEntrada);
 		generaLpConAuxGrammar(ficheroLsi, ficheroLp);
 		GurobiSolution solucion = ejecucionGurobi(ficheroLp);
 		imprimeSolucion(solucion);
-		return solucion;
 	}
 
 	private static void generaLpConAuxGrammar(String ficheroLsi, String ficheroLp) throws IOException {
 		System.out.println("\n---------------------------------------------------");
 		System.out.println("\n<--- Transformacion de AuxGrammar --->\n");
-		AuxGrammar.generate(SolucionCursos.class, ficheroLsi, ficheroLp);
+		
+		AuxGrammar.generate(DatosCursos.class, ficheroLsi, ficheroLp);
 		System.out.println("\n---------------------------------------------------");
 	}
 
@@ -100,7 +98,10 @@ public class SolucionCursos {
 	}
 
 	public static void main(String[] args) {
-		SolucionAlmacen s = SolucionAlmacen.create(List.of(1, 2, 3));
+		SolucionCursos s = SolucionCursos.create(List.of(1, 2, 3));
 		System.out.println(s);
 	}
 }
+
+
+
