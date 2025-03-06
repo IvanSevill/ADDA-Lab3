@@ -1,34 +1,39 @@
+head section
+
+Integer getNumCursos()
+Integer getNumAreas()
+Integer getPresupuestoTotal()
+
+Integer getCoste(Integer i)
+Integer getArea(Integer i)
+Integer getRelevancia(Integer i)
+Integer getDuracion(Integer i)
+
+Integer n = getNumCursos()
+Integer m = getNumAreas()
+Integer presupuestoTotal = getPresupuestoTotal()
+
+
+
+goal section
 	
-	head section
-
-	Integer getNumCursos()
-	Integer getNumAreas()
-	Integer getPresupuestoTotal()
-
-	Integer getCoste(Integer i)
-	Integer getArea(Integer i)
-	Integer getRelevancia(Integer i)
-	Integer getDuracion(Integer i)
-
-	Integer n = getNumCursos()
-	Integer m = getNumAreas()
-	Integer x = getPresupuestoTotal()
+max sum(getRelevancia(i) x[i], i in 0 .. n)
 
 
-	goal section
+
+constraints section
+
+// Al menos una por area	
+sum( x[i], i in 0 .. n ) > 0		
+
+// Tengo que tener más de tec o igual que de el resto																			
+sum(x[i], i in 0 .. n | getArea(i) = 0) - sum(x[i], i in 0 .. n | getArea(i) = j) >=0, j in 1 .. m		
+
+// La media de duracion tiene que ser mayor de 20 
+sum(getDuracion(i) x[1], i in 0 .. m) - sum (20 x[1], i in 0 .. m) >=0			
 	
-	max sum (getRelevancia(i) x[i], i in 0 .. n) 					
+// El coste de cada curso por el número de cursos tiene que ser menor que el presupuesto total 
+sum(getCoste(i) x[i], i in 0 .. n) <= presupuestoTotal							
 
-
-
-	constraints section
-	
-	x[i] > 0, i in 0 .. n									
-	x[i] <= x[j], i in 0 .. n | getArea(j) = 0				
-	sum(getDuracion(i)  x[i], i in 0 .. n) >= 20					
-	sum(getCoste(i) x[i], i in 0 .. n) <= x	 
-		
-		
-		
-	int 
-	x[i], i in 0 .. n  
+			
+bin x[i], i in 0 .. n  

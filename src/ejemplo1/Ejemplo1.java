@@ -31,12 +31,9 @@ public class Ejemplo1 {
 	public static void ejemplo1_model(String fichero, String ficheroLsi, String ficheroLp) throws IOException {
 		DatosMulticonjunto.iniDatos(fichero);
 
-		suma = DatosMulticonjunto.getSuma();
-		elementos = DatosMulticonjunto.getListaNumeros();
-
 		System.out.println("\n---------------------------------------------------");
 		System.out.println("\n<--- Transformacion de AuxGrammar --->\n");
-		AuxGrammar.generate(Ejemplo1.class, "C:\\Users\\ivans\\git\\ADDA2-Lab2\\resources\\modeloslsi\\ejemplo1.lsi", ficheroLp);
+		AuxGrammar.generate(DatosMulticonjunto.class, "C:\\Users\\ivans\\git\\ADDA2-Lab2\\resources\\modeloslsi\\ejemplo1.lsi", ficheroLp);
 		System.out.println("\n---------------------------------------------------");
 
 		System.out.println("\n<--- Ejecucion de Gurobi --->\n");

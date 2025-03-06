@@ -60,7 +60,7 @@ public class SolucionCursos {
 	}
 
 	private static GurobiSolution ejecucionGurobi(String ficheroLp) throws IOException {
-		System.out.println("\n<--- Ejecucion de Gurobi --->\n");
+		System.out.println("\n<--- Ejecucion de Gurobi 9.5 --->\n");
 		GurobiSolution solution = GurobiLp.gurobi(ficheroLp);
 		Locale.setDefault(Locale.of("en", "US"));
 		System.out.println("\n---------------------------------------------------");
@@ -99,7 +99,6 @@ public class SolucionCursos {
 
 	public static void main(String[] args) {
 		SolucionCursos s = SolucionCursos.create(List.of(1, 2, 3));
-		System.out.println(s);
 	}
 }
 
