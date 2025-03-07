@@ -27,7 +27,7 @@ constraints section
 sum( x[i], i in 0 .. n ) > 0		
 
 // Tengo que tener más de tec o igual que de el resto																			
-sum(x[i], i in 0 .. n | getArea(i) = 0) - sum(x[i], i in 0 .. n | getArea(i) = j) >=0, j in 1 .. m		
+sum(x[i], i in 0 .. n | getArea(i) = 0) - sum(x[i], i in 0 .. n | getArea(i) = j) >=0, j in 1 .. m
 
 // La media de duracion tiene que ser mayor de 20 
 sum(getDuracion(i) x[1], i in 0 .. m) - sum (20 x[1], i in 0 .. m) >=0			
