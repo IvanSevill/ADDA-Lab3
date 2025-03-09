@@ -16,4 +16,5 @@ module PI3_sol {
 	requires transitive solve;
 	requires transitive geneticos;
 	requires transitive grafos;
+	requires ejemplospracticas;
 }
