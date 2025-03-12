@@ -6,12 +6,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import common.DatosAlmacenes;
+import common.DatosAlmacenes.Producto;
 import ejemplo1.*;
 import ejemplo1.DatosMulticonjunto;
 import ejemplo2.DatosSubconjunto.Subconjunto;
-import ejercicio1.DatosAlmacenes;
-import ejercicio1.Ejercicio1;
-import ejercicio1.DatosAlmacenes.Producto;
+import ejercicio1PLE.Ejercicio1;
 import us.lsi.gurobi.GurobiLp;
 import us.lsi.gurobi.GurobiSolution;
 import us.lsi.solve.AuxGrammar;

@@ -1,4 +1,4 @@
-package ejercicio1;
+package ejercicio1PLE;
 
 import java.io.IOException;
 import java.util.List;
@@ -6,7 +6,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import ejercicio1.DatosAlmacenes.Producto;
+import common.DatosAlmacenes;
+import common.DatosAlmacenes.Producto;
 import us.lsi.gurobi.GurobiLp;
 import us.lsi.gurobi.GurobiSolution;
 import us.lsi.solve.AuxGrammar;
