@@ -85,6 +85,14 @@ public class DatosAlmacenes {
 		return productos.get(i);
 	}
 	
+	public static List<Almacen> getAlmacenes() {
+		return almacenes;
+	}
+	
+	public static List<Producto> getProductos() {
+		return productos;
+	}
+	
 	public static Boolean sonIncompatibles(Integer i, Integer j) {
 		String s2 = productos.get(j).producto();
 		return productos.get(i).incompatibilidades.contains(s2);
@@ -96,14 +104,6 @@ public class DatosAlmacenes {
 			res = 1;
 		}
 		return res;
-	}
-	
-	public static List<Almacen> getAlmacenes() {
-		return almacenes;
-	}
-	
-	public static List<Producto> getProductos() {
-		return productos;
 	}
 
 	public static void toConsole() {

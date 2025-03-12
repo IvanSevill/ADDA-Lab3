@@ -1,107 +1,73 @@
 package ejercicio2PLE;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import common.DatosCursos;
-import us.lsi.gurobi.GurobiLp;
+import common.GurobiCommon;
 import us.lsi.gurobi.GurobiSolution;
-import us.lsi.solve.AuxGrammar;
 
 public class Ejercicio2 {
 	private static final Integer EJERCICIO = 2;
+	private static final Integer NUMERO_DE_ARCHIVOS = 3;
 
-	public static Ejercicio2 create(List<Integer> ls) {
-		return new Ejercicio2(ls);
+	private static Integer areas;
+	private static Integer cursos;
+	private static Integer presupuestoTotal;
+
+	public static Integer getNumCursos() {
+		return cursos;
+	}
+			
+	public static Integer getNumAreas() {
+		return areas;
+	}
+	
+	public static Integer getPresupuestoTotal() {
+		return presupuestoTotal;
+	}
+	
+	public static Integer getCoste(Integer i) {
+		return DatosCursos.getCoste(i);
+	}
+	
+	public static Integer getRelevancia(Integer i) {
+		return DatosCursos.getRelevancia(i);
+	}
+	
+	public static Integer getDuracion(Integer i) {
+		return DatosCursos.getDuracion(i);
+	}
+	
+	public static Integer getArea(Integer i) {
+		return DatosCursos.getArea(i);
+	}
+	
+	public static void ejercicio2(Integer num) throws IOException {
+
+		String datosEntrada = "resources/ejercicio" + EJERCICIO + "/DatosEntrada" + num + ".txt";
+		String lsi = "modeloslsi/ejercicio" + EJERCICIO + ".lsi";
+		String lp = "modeloslp/ejercicio" + EJERCICIO + "_" + num + ".lp";
+
+		DatosCursos.iniDatos(datosEntrada);
+
+		areas = DatosCursos.getNumAreas();
+		cursos = DatosCursos.getNumCursos();
+		presupuestoTotal = DatosCursos.getPresupuestoTotal();
+
+		GurobiCommon.imprimeCabecera(datosEntrada, EJERCICIO);
+		GurobiCommon.generaLpConAuxGrammar(Ejercicio2.class, lsi, lp);
+		GurobiSolution solution = GurobiCommon.ejecucionGurobi(lp);
+		GurobiCommon.imprimeSolucion(solution);
 	}
 
-	private Integer numCursos;
-	private Map<Integer, Integer> solucion;
-	private Double puntuacionTotal;
-	private Integer costeTotal;
-
-	private static void imprimeCabecera(String datosEntrada) {
-		System.out.println("\n---------------------------------------------------------------------------------------");
-		System.out.println(" | Ejecutando ejercicio " + EJERCICIO + " con datos de entrada: " + datosEntrada + "|");
-		System.out.println("---------------------------------------------------------------------------------------\n");
-	}
-
-	private Ejercicio2(List<Integer> ls) {
-		for (Integer num : ls) {
-			String datosEntrada = "resources/ejercicio" + EJERCICIO + "/DatosEntrada" + num + ".txt";
-			String lsi = "resources/modeloslsi/ejercicio" + EJERCICIO + ".lsi";
-			String lp = "resources/modeloslp/ejercicio" + EJERCICIO + "_" + num + ".lp";
-
-			imprimeCabecera(datosEntrada);
+	public static void main(String[] args) {
+		for (int i = 1; i <= NUMERO_DE_ARCHIVOS; i++) {
 			try {
-				ejercicio2(datosEntrada, lsi, lp);
+				ejercicio2(i);
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-
-	public static void ejercicio2(String datosEntrada, String ficheroLsi, String ficheroLp)
-			throws IOException {
-		DatosCursos.iniDatos(datosEntrada);
-		generaLpConAuxGrammar(ficheroLsi, ficheroLp);
-		GurobiSolution solucion = ejecucionGurobi(ficheroLp);
-		imprimeSolucion(solucion);
-	}
-
-	private static void generaLpConAuxGrammar(String ficheroLsi, String ficheroLp) throws IOException {
-		System.out.println("\n---------------------------------------------------");
-		System.out.println("\n<--- Transformacion de AuxGrammar --->\n");
-		
-		AuxGrammar.generate(DatosCursos.class, ficheroLsi, ficheroLp);
-		System.out.println("\n---------------------------------------------------");
-	}
-
-	private static GurobiSolution ejecucionGurobi(String ficheroLp) throws IOException {
-		System.out.println("\n<--- Ejecucion de Gurobi 9.5 --->\n");
-		GurobiSolution solution = GurobiLp.gurobi(ficheroLp);
-		Locale.setDefault(Locale.of("en", "US"));
-		System.out.println("\n---------------------------------------------------");
-		return solution;
-	}
-
-	private static void imprimeSolucion(GurobiSolution solucion) throws IOException {
-		System.out.println("\n<--- Solución ---> \n");
-		System.out.println(solucion.toString((s, d) -> d > 0.));
-		System.out.println("\n---------------------------------------------------\n\n\n\n");
-	}
-
-	@Override
-	public String toString() {
-		return solucion.entrySet().stream().map(p -> "Curso " + p.getKey() + ": Seleccionado")
-				.collect(Collectors.joining("\n", "Cursos seleccionados:\n",
-						String.format("\nTotal de cursos seleccionados: %d\nPuntuación total: %.2f\nCoste total: %d",
-								numCursos, puntuacionTotal, costeTotal)));
-	}
-
-	public Integer getNumCursos() {
-		return numCursos;
-	}
-
-	public Map<Integer, Integer> getSolucion() {
-		return solucion;
-	}
-
-	public Double getPuntuacionTotal() {
-		return puntuacionTotal;
-	}
-
-	public Integer getCosteTotal() {
-		return costeTotal;
-	}
-
-	public static void main(String[] args) {
-		Ejercicio2 s = Ejercicio2.create(List.of(1, 2, 3));
-	}
 }
-
-
-

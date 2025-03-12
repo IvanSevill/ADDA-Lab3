@@ -11,18 +11,27 @@ public class GurobiCommon {
 
 	private static final Integer NUMERO = 140;
 	private static final String CARACTER = "-";
+	private static final String blanco = " ";
 
-	
-	public static <E> void generaLpConAuxGrammar(Class<E> clase, String ficheroLsi, String ficheroLp) throws IOException {
-	    separador(CARACTER, NUMERO);
-	    System.out.println("\n<--- Transformacion de AuxGrammar --->\n");
-	    AuxGrammar.generate(clase, ficheroLsi, ficheroLp);
-	    separador(CARACTER, NUMERO);
+	public static <E> void generaLpConAuxGrammar(Class<E> clase, String ficheroLsi, String ficheroLp)
+			throws IOException {
+		System.out.println();
+		separador(CARACTER, NUMERO);
+		String s = "Transformacion de AuxGrammar";
+		Integer espaciosPorLado = (NUMERO - s.length()) / 2 - 2;
+		System.out.println(" |" + blanco.repeat(espaciosPorLado) + s + blanco.repeat(espaciosPorLado) + "|");
+		separador(CARACTER, NUMERO);
+		AuxGrammar.generate(clase, ficheroLsi, ficheroLp);
+		separador(CARACTER, NUMERO);
 	}
 
 	public static GurobiSolution ejecucionGurobi(String ficheroLp) throws IOException {
+		System.out.println();
 		separador(CARACTER, NUMERO);
-		System.out.println("\n<--- Ejecucion de Gurobi --->\n");
+		String s = "Ejecucion de Gurobi";
+		Integer espaciosPorLado = (NUMERO - s.length()) / 2 - 2;
+		System.out.println(" |" + blanco.repeat(espaciosPorLado) + s + blanco.repeat(espaciosPorLado) + "|");
+		separador(CARACTER, NUMERO);
 		GurobiSolution solution = GurobiLp.gurobi(ficheroLp);
 		Locale.setDefault(Locale.of("en", "US"));
 		separador(CARACTER, NUMERO);
@@ -30,17 +39,22 @@ public class GurobiCommon {
 	}
 
 	public static void imprimeSolucion(GurobiSolution solucion) throws IOException {
+		System.out.println();
 		separador(CARACTER, NUMERO);
-		System.out.println(solucion.toString((s, d) -> d > 0.));
+		String s = "SOLUCION";
+		Integer espaciosPorLado = (NUMERO - s.length()) / 2 - 2;
+		System.out.println(" |" + blanco.repeat(espaciosPorLado) + s + blanco.repeat(espaciosPorLado) + "|");
 		separador(CARACTER, NUMERO);
+		System.out.println(solucion.toString((a, d) -> d > 0.));
+		separador(CARACTER, NUMERO);
+
 	}
 
 	public static void imprimeCabecera(String datosEntrada, Integer ejercicio) {
-
+		System.out.println("\n\n");
 		separador(CARACTER, NUMERO);
 		String s = "Ejecutando ejercicio " + ejercicio + " con datos de entrada: " + datosEntrada;
 		Integer espaciosPorLado = (NUMERO - s.length()) / 2 - 2;
-		String blanco = " ";
 		System.out.println(" |" + blanco.repeat(espaciosPorLado) + s + blanco.repeat(espaciosPorLado) + "|");
 		separador(CARACTER, NUMERO);
 	}
@@ -48,5 +62,5 @@ public class GurobiCommon {
 	public static void separador(String caracter, Integer n) {
 		System.out.println(caracter.repeat(n));
 	}
-	
+
 }

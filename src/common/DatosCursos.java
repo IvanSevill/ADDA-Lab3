@@ -46,30 +46,37 @@ public class DatosCursos {
             }
         }
         areas = List2.ofCollection(cat);
-        toConsole();
+//        toConsole();
     }
     
     public static Integer getNumCursos() {
         return cursos.size();
     }
+    
     public static Integer getNumAreas() {
         return areas.size();
     }
+    
     public static Integer getCoste(Integer i) {
         return cursos.get(i).coste();
     }
+    
     public static Curso getCurso(Integer index){
         return cursos.get(index);
     }
+    
     public static Integer getArea(Integer index){
         return cursos.get(index).area();
     }
+    
     public static Integer getRelevancia(Integer index) {
         return cursos.get(index).relevancia();
     }
+    
     public static Integer getDuracion(Integer index) {
         return cursos.get(index).duracion();
     }
+    
     public static Integer getPresupuestoTotal() {
         return presupuestoTotal;
     }
