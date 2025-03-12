@@ -7,8 +7,6 @@ import java.util.stream.Collectors;
 
 import common.DatosAlmacenes;
 import common.DatosAlmacenes.Producto;
-import us.lsi.common.Multiset;
-import us.lsi.p3.ej_1.DatosMulticonjunto;
 
 public class SolucionAlmacen {
 	// VARIABLES
@@ -31,18 +29,20 @@ public class SolucionAlmacen {
 	}
 	
 	private SolucionAlmacen(List<Integer> ls) {
-		this.numproductos = DatosAlmacenes.getNumProductos();
 		this.solucion = new HashMap<Producto, Integer>();
-
+		Integer totalProductos = DatosAlmacenes.getNumProductos();
+		
 		for (Integer i = 0; i < ls.size(); i++) {
 			
 			if (ls.get(i) > 0) {
-				Producto producto = DatosAlmacenes.getProducto( i % numproductos);
-				Integer almacen = i / numproductos;
-				solucion.put(producto, almacen);
+				Producto producto = DatosAlmacenes.getProducto( i % totalProductos);
+				Integer almacen = ls.get(i);
 				this.solucion.put(producto, almacen);
 			}
 		}
+		
+		this.numproductos = solucion.size();
+
 	}
 
 	public String toString() {

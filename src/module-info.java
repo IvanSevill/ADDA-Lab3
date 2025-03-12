@@ -5,16 +5,12 @@
  * 
  */
 module PI3_sol {
-	exports ejemplo1;
-	exports ejemplo2;
-	exports ejercicio1AG;
-	exports ejercicio2;
-	exports ejercicio3;
-	exports ejercicio4;
+	exports ejercicio1PLE;
+	exports ejercicio2PLE;
+	exports ejercicio3PLE;
 	
 	requires transitive partecomun;
 	requires transitive solve;
 	requires transitive geneticos;
 	requires transitive grafos;
-	requires ejemplospracticas;
 }

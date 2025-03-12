@@ -3,29 +3,17 @@ package ejercicio1AG;
 import java.util.List;
 import java.util.Locale;
 
+import common.GurobiCommon;
 import us.lsi.ag.agchromosomes.AlgoritmoAG;
 import us.lsi.ag.agstopping.StoppingConditionFactory;;
 
 public class TestAlmacenesAG {
 
 	private static final Integer EJERCICIO = 1;
-	private static final Integer NUMERO_DE_ARCHIVOS = 3;
+	private static final Integer NUMERO_DE_ARCHIVOS = 1;
 	private static final Integer NUMERO = 140;
 	private static final String CARACTER = "-";
 
-	private static void imprimeCabecera(String datosEntrada) {
-		System.out.println();
-		separador(CARACTER, NUMERO);
-		String s = "Ejecutando ejercicio " + EJERCICIO + " con datos de entrada: " + datosEntrada;
-		Integer espaciosPorLado = (NUMERO - s.length()) / 2 - 2;
-		String blanco = " ";
-		System.out.println(" |" + blanco.repeat(espaciosPorLado) + s + blanco.repeat(espaciosPorLado) + "|");
-		separador(CARACTER, NUMERO);
-	}
-
-	private static void separador(String caracter, Integer n) {
-		System.out.println(caracter.repeat(n));
-	}
 
 	public static void main(String[] args) {
 		Locale.setDefault(Locale.of("en", "US"));
@@ -45,9 +33,10 @@ public class TestAlmacenesAG {
 			AlgoritmoAG<List<Integer>, SolucionAlmacen> ap = AlgoritmoAG.of(cromosomaAlmacenes);
 			ap.ejecuta();
 
-			imprimeCabecera(datosEntrada);
+			GurobiCommon.imprimeCabecera(datosEntrada, i);
+			System.out.println(ap.getBestChromosome());
 			System.out.println(ap.bestSolution());
-			separador(CARACTER, NUMERO);
+			GurobiCommon.separador(CARACTER, NUMERO);
 		}
 
 	}

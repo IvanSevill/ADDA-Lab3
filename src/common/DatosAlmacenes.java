@@ -97,6 +97,14 @@ public class DatosAlmacenes {
 		}
 		return res;
 	}
+	
+	public static List<Almacen> getAlmacenes() {
+		return almacenes;
+	}
+	
+	public static List<Producto> getProductos() {
+		return productos;
+	}
 
 	public static void toConsole() {
 		String2.toConsole(productos,"productos");
