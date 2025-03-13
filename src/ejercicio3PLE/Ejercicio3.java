@@ -32,13 +32,8 @@ public class Ejercicio3 {
 	}
 
 	public static Integer getTipoEntrada(Integer i) {
-	    String tipo = DatosFestival.getTipoEntrada(i).tipo(); // Obtiene el tipo como "T0", "T1", etc.
-	    if (tipo.startsWith("T")) { // Verifica si el string empieza con "T"
-	        tipo = tipo.substring(1); // Elimina el primer carácter ("T")
-	    }
-	    return Integer.parseInt(tipo); // Convierte el string resultante en un entero
+	    return Integer.parseInt(DatosFestival.getTipoEntrada(i).tipo().substring(1)); 
 	}
-
 
 	public static Integer getArea(Integer j) {
 		return DatosFestival.getArea(j).aforoMaximo();
@@ -55,7 +50,7 @@ public class Ejercicio3 {
 		String lp = "modeloslp/ejercicio" + EJERCICIO + "_" + num + ".lp";
 
 		// Inicializa los datos antes de acceder a ellos
-		iniDatos(datosEntrada);
+		DatosFestival.iniDatos(datosEntrada);
 		
 		GurobiCommon.imprimeCabecera(datosEntrada, EJERCICIO);
 		GurobiCommon.generaLpConAuxGrammar(Ejercicio3.class, lsi, lp);

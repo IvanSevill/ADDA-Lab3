@@ -10,9 +10,8 @@ import us.lsi.ag.agstopping.StoppingConditionFactory;;
 public class TestAlmacenesAG {
 
 	private static final Integer EJERCICIO = 1;
-	private static final Integer NUMERO_DE_ARCHIVOS = 1;
+	private static final Integer NUMERO_DE_ARCHIVOS = 3;
 	private static final Integer NUMERO = 140;
-	private static final String CARACTER = "-";
 
 
 	public static void main(String[] args) {
@@ -23,7 +22,7 @@ public class TestAlmacenesAG {
 		AlgoritmoAG.MUTATION_RATE = 0.8;
 		AlgoritmoAG.POPULATION_SIZE = 1000;
 
-		StoppingConditionFactory.NUM_GENERATIONS = 1000;
+		StoppingConditionFactory.NUM_GENERATIONS = 10000;
 		StoppingConditionFactory.stoppingConditionType = StoppingConditionFactory.StoppingConditionType.GenerationCount;
 
 		for (int i = 1; i <= NUMERO_DE_ARCHIVOS; i++) {
@@ -36,7 +35,7 @@ public class TestAlmacenesAG {
 			GurobiCommon.imprimeCabecera(datosEntrada, i);
 			System.out.println(ap.getBestChromosome());
 			System.out.println(ap.bestSolution());
-			GurobiCommon.separador(CARACTER, NUMERO);
+			GurobiCommon.separador(GurobiCommon.CARACTER, NUMERO);
 		}
 
 	}

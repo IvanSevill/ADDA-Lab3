@@ -1,7 +1,9 @@
 package ejercicio1AG;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import common.DatosAlmacenes;
 import us.lsi.ag.BinaryData;
@@ -10,7 +12,7 @@ import us.lsi.common.IntPair;
 
 public class CromosomaAlmacenes implements BinaryData<SolucionAlmacen> {
 
-	public static final Double PUNISHMENT = 100000.0;
+	public static final Double PUNISHMENT = 500000.0;
 
 	public ChromosomeType type() {
 		return ChromosomeType.Binary;
@@ -38,100 +40,68 @@ public class CromosomaAlmacenes implements BinaryData<SolucionAlmacen> {
 	}
 
 	// Capacidad de los almacenes
-	public Double restriccionCapacidadAlmacenes(Integer n, List<Integer> acum) {
-		Double capacidadActual = 0.0;
-		IntPair pa1 = IntPair.of(getProductoAG(n), getAlmacenAG(n));
-
+	public Double restriccionCapacidadAlmacenes(Integer almacen, List<Integer> acum) {
+		double capacidadOcupada = 0.0;
 		for (Integer i : acum) {
-
-			IntPair pa2 = IntPair.of(getProductoAG(i), getAlmacenAG(i));
-
-			Boolean mismoAlmacen = pa1.second() == pa2.second();
-			if (mismoAlmacen) {
-				capacidadActual += DatosAlmacenes.getMetrosCubicosProducto(pa2.first());
+			if (getAlmacenAG(i) == almacen) {
+				capacidadOcupada += DatosAlmacenes.getMetrosCubicosProducto(getProductoAG(i));
 			}
-
 		}
-
-		return capacidadActual;
+		double exceso = capacidadOcupada - DatosAlmacenes.getMetrosCubicosAlmacen(almacen);
+		return exceso > 0 ? exceso * PUNISHMENT : 0.0;
 	}
 
-	// Cada producto se almacena en un solo almacen o no se almacena
-	public Double restriccionAlmacenarVariasVeces(Integer n, List<Integer> acum) {
-		Double res = 0.;
+	// Restricción de incompatibilidades
+	public Double restriccionIncompatibilidad(List<Integer> acum) {
+		double penalizacion = 0.0;
+		for (int i = 0; i < acum.size(); i++) {
+			for (int j = i + 1; j < acum.size(); j++) {
+				if (getAlmacenAG(acum.get(i)) == getAlmacenAG(acum.get(j)) &&
+					DatosAlmacenes.sonIncompatibles(getProductoAG(acum.get(i)), getProductoAG(acum.get(j)))) {
+					penalizacion += PUNISHMENT;
+				}
+			}
+		}
+		return penalizacion;
+	}
 
-		IntPair pa1 = IntPair.of(getProductoAG(n), getAlmacenAG(n));
-
+	// Restricción para evitar productos repetidos
+	public Double restriccionProductosUnicos(List<Integer> acum) {
+		boolean[] productosAsignados = new boolean[DatosAlmacenes.getNumProductos()];
+		double penalizacion = 0.0;
 		for (Integer i : acum) {
-
-			IntPair pa2 = IntPair.of(getProductoAG(i), getAlmacenAG(i));
-
-			Boolean mismoProducto = pa1.first() == pa2.first();
-			Boolean diferenteAlmacen = pa1.second() != pa2.second();
-			if (mismoProducto && diferenteAlmacen) {
-				res++;
+			int producto = getProductoAG(i);
+			if (productosAsignados[producto]) {
+				penalizacion += PUNISHMENT;
+			} else {
+				productosAsignados[producto] = true;
 			}
 		}
-		return DatosAlmacenes.getNumProductos() - res;
+		return penalizacion;
 	}
 
-	// Restricciones de incompatibilidad
-	public Double restriccionIncompatibilidad(Integer n, List<Integer> acum) {
-		Double res = 0.;
-
-		IntPair pa1 = IntPair.of(getProductoAG(n), getAlmacenAG(n));
-
-		for (Integer i : acum) {
-			IntPair pa2 = IntPair.of(getProductoAG(i), getAlmacenAG(i));
-
-			Boolean mismoAlmacen = pa1.second() == pa2.second();
-			Boolean sonIncompatibles = DatosAlmacenes.sonIncompatibles(pa1.first(), pa2.second())
-					|| DatosAlmacenes.sonIncompatibles(pa2.first(), pa1.second());
-
-			if (mismoAlmacen && sonIncompatibles) {
-				res++;
-			}
-		}
-
-		return res * PUNISHMENT;
-	}
-
-	private Double restricciones(List<Integer> value, List<Integer> acum) {
-
-		double errorCapacidadAlmacenes = 0.0;
-		double errorAlmacenarVariasVeces = 0.0;
-		double errorIncompatibilidad = 0.0;
-		// Vuelvo a recorrer la lista para guardar los errores con el acumulador
-		for (int i = 0; i < value.size(); i++) {
-			if (value.get(i) > 0) {
-				errorCapacidadAlmacenes += restriccionCapacidadAlmacenes(i, acum);
-				errorAlmacenarVariasVeces += restriccionAlmacenarVariasVeces(i, acum);
-				errorIncompatibilidad += restriccionIncompatibilidad(i, acum);
-			}
-		}
-		return Math.abs(errorCapacidadAlmacenes + errorAlmacenarVariasVeces + errorIncompatibilidad);
-	}
-
-	// value podría ser [0, 0, 1, 0, ..., 0, 1] por ser un cromosoma binario
-    public Double fitnessFunction(List<Integer> value) {
-        double capacidadMaximaAlmacenes = 0.0;
+	// Función de fitness
+	public Double fitnessFunction(List<Integer> value) {
         List<Integer> acum = new ArrayList<>();
-
-        for (int i = 0; i <= DatosAlmacenes.getNumAlmacenes(); i++) { // Corrección del límite
-            capacidadMaximaAlmacenes += DatosAlmacenes.getMetrosCubicosAlmacen(getAlmacenAG(i));
-        }
+        Set<Integer> almacenesUsados = new HashSet<>();
+        int productosAlmacenados = 0;
 
         for (int i = 0; i < value.size(); i++) {
             if (value.get(i) > 0) {
                 acum.add(i);
+                productosAlmacenados++;
+                almacenesUsados.add(getAlmacenAG(i));
             }
         }
 
-        double restriccionesTotal = restricciones(value, acum);
-        double resultado = - capacidadMaximaAlmacenes - PUNISHMENT * restriccionesTotal;
+        double penalizacionCapacidad = 0.0;
+        for (int i = 0; i < DatosAlmacenes.getNumAlmacenes(); i++) {
+            penalizacionCapacidad += restriccionCapacidadAlmacenes(i, acum);
+        }
+        double penalizacionIncompatibilidad = restriccionIncompatibilidad(acum);
+        double penalizacionProductosUnicos = restriccionProductosUnicos(acum);
 
-        System.out.println(resultado);
-        return resultado;
+        return productosAlmacenados * 100 + almacenesUsados.size() * 50 
+            - penalizacionCapacidad - penalizacionIncompatibilidad - penalizacionProductosUnicos;
     }
-
 }
