@@ -8,7 +8,6 @@ import java.util.Set;
 import common.DatosAlmacenes;
 import us.lsi.ag.BinaryData;
 import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;
-import us.lsi.common.IntPair;
 
 public class CromosomaAlmacenes implements BinaryData<SolucionAlmacen> {
 
@@ -48,7 +47,7 @@ public class CromosomaAlmacenes implements BinaryData<SolucionAlmacen> {
 			}
 		}
 		double exceso = capacidadOcupada - DatosAlmacenes.getMetrosCubicosAlmacen(almacen);
-		return exceso > 0 ? exceso * PUNISHMENT : 0.0;
+		return exceso > 0 ? exceso * exceso : 0.0;
 	}
 
 	// Restricción de incompatibilidades
@@ -56,13 +55,13 @@ public class CromosomaAlmacenes implements BinaryData<SolucionAlmacen> {
 		double penalizacion = 0.0;
 		for (int i = 0; i < acum.size(); i++) {
 			for (int j = i + 1; j < acum.size(); j++) {
-				if (getAlmacenAG(acum.get(i)) == getAlmacenAG(acum.get(j)) &&
-					DatosAlmacenes.sonIncompatibles(getProductoAG(acum.get(i)), getProductoAG(acum.get(j)))) {
+				if (getAlmacenAG(acum.get(i)) == getAlmacenAG(acum.get(j))
+						&& DatosAlmacenes.sonIncompatibles(getProductoAG(acum.get(i)), getProductoAG(acum.get(j)))) {
 					penalizacion += PUNISHMENT;
 				}
 			}
 		}
-		return penalizacion;
+		return penalizacion * penalizacion;
 	}
 
 	// Restricción para evitar productos repetidos
@@ -77,31 +76,31 @@ public class CromosomaAlmacenes implements BinaryData<SolucionAlmacen> {
 				productosAsignados[producto] = true;
 			}
 		}
-		return penalizacion;
+		return penalizacion*penalizacion;
 	}
 
 	// Función de fitness
 	public Double fitnessFunction(List<Integer> value) {
-        List<Integer> acum = new ArrayList<>();
-        Set<Integer> almacenesUsados = new HashSet<>();
-        int productosAlmacenados = 0;
+		List<Integer> acum = new ArrayList<>();
+		Set<Integer> almacenesUsados = new HashSet<>();
+		int productosAlmacenados = 0;
 
-        for (int i = 0; i < value.size(); i++) {
-            if (value.get(i) > 0) {
-                acum.add(i);
-                productosAlmacenados++;
-                almacenesUsados.add(getAlmacenAG(i));
-            }
-        }
+		for (int i = 0; i < value.size(); i++) {
+			if (value.get(i) > 0) {
+				acum.add(i);
+				productosAlmacenados++;
+				almacenesUsados.add(getAlmacenAG(i));
+			}
+		}
 
-        double penalizacionCapacidad = 0.0;
-        for (int i = 0; i < DatosAlmacenes.getNumAlmacenes(); i++) {
-            penalizacionCapacidad += restriccionCapacidadAlmacenes(i, acum);
-        }
-        double penalizacionIncompatibilidad = restriccionIncompatibilidad(acum);
-        double penalizacionProductosUnicos = restriccionProductosUnicos(acum);
+		double penalizacionCapacidad = 0.0;
+		for (int i = 0; i < DatosAlmacenes.getNumAlmacenes(); i++) {
+			penalizacionCapacidad += restriccionCapacidadAlmacenes(i, acum);
+		}
+		double penalizacionIncompatibilidad = restriccionIncompatibilidad(acum);
+		double penalizacionProductosUnicos = restriccionProductosUnicos(acum);
 
-        return productosAlmacenados * 100 + almacenesUsados.size() * 50 
-            - penalizacionCapacidad - penalizacionIncompatibilidad - penalizacionProductosUnicos;
-    }
+		return productosAlmacenados * 100 + almacenesUsados.size() * 50 - penalizacionCapacidad
+				- penalizacionIncompatibilidad - penalizacionProductosUnicos;
+	}
 }

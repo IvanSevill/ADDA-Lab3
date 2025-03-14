@@ -1,4 +1,7 @@
+// -----------------------------------------------------------------------------------------------
+
 head section
+
 Integer getNumProductos()
 Integer getNumAlmacenes()
 Integer getMetrosCubicosAlmacen(Integer j)
@@ -8,13 +11,27 @@ Boolean sonIncompatibles(Integer i, Integer j)
 Integer n = getNumProductos()
 Integer m = getNumAlmacenes()
 
+// -----------------------------------------------------------------------------------------------
+
 goal section
+
 max sum(x[i,j], i in 0 .. n, j in 0 .. m)
 
+// -----------------------------------------------------------------------------------------------
+
 constraints section
+
+// Coloco como máximo el producto en un almacen
 sum(x[i,j], j in 0 .. m) <= 1, i in 0 .. n
+
+// No puedo meter mas productos que la capacidad del almacen
 sum(getMetrosCubicosProducto(i) x[i,j], i in 0 .. n) <= getMetrosCubicosAlmacen(j), j in 0 .. m
+
+// Si son incompatibles no puedo meterlo en el mismo almacen
 x[i,j] + x[s,j] <= 1, i in 0 .. n, s in 0 .. n, j in 0 .. m  | sonIncompatibles(i, s) 
 
-bin
-x[i,j], i in 0 .. n, j in 0 .. m
+// -----------------------------------------------------------------------------------------------
+
+bin x[i,j], i in 0 .. n, j in 0 .. m
+
+// -----------------------------------------------------------------------------------------------

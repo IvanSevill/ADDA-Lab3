@@ -5,8 +5,10 @@ import java.util.List;
 
 import common.DatosAlmacenes;
 import common.GurobiCommon;
+import ejercicio1AG.SolucionAlmacen;
 import common.DatosAlmacenes.Almacen;
 import common.DatosAlmacenes.Producto;
+import us.lsi.gurobi.GurobiLp;
 import us.lsi.gurobi.GurobiSolution;
 
 public class Ejercicio1 {
@@ -14,39 +16,35 @@ public class Ejercicio1 {
 	private static final Integer EJERCICIO = 1;
 	private static final Integer NUMERO_DE_ARCHIVOS = 3;
 
-	private static List<Almacen> almacenes;
-	private static List<Producto> productos;
-	
 	public static Integer getNumProductos() {
-		return productos.size();
+		return DatosAlmacenes.getNumProductos();
 	}
+
 	public static Integer getNumAlmacenes() {
-		return almacenes.size();
+		return DatosAlmacenes.getNumAlmacenes();
 	}
+
 	public static Integer getMetrosCubicosAlmacen(Integer j) {
-		return almacenes.get(j).metroscubicosdisponibles();
+		return DatosAlmacenes.getMetrosCubicosAlmacen(j);
 	}
+
 	public static Integer getMetrosCubicosProducto(Integer i) {
-		return productos.get(i).metroscubicosrequeridos();
+		return DatosAlmacenes.getMetrosCubicosProducto(i);
 	}
-	
+
 	public static Boolean sonIncompatibles(Integer i, Integer j) {
 		return DatosAlmacenes.sonIncompatibles(i, j);
 	}
 
 	public static void ejercicio1(Integer num) throws IOException {
-
 		String datosEntrada = "resources/ejercicio" + EJERCICIO + "/DatosEntrada" + num + ".txt";
 		String lsi = "modeloslsi/ejercicio" + EJERCICIO + ".lsi";
 		String lp = "modeloslp/ejercicio" + EJERCICIO + "_" + num + ".lp";
 
 		DatosAlmacenes.iniDatos(datosEntrada);
 
-		almacenes = DatosAlmacenes.getAlmacenes();
-		productos = DatosAlmacenes.getProductos();
-		
 		GurobiCommon.imprimeCabecera(datosEntrada, EJERCICIO);
-		GurobiCommon.generaLpConAuxGrammar(Ejercicio1.class, lsi,lp);
+		GurobiCommon.generaLpConAuxGrammar(Ejercicio1.class, lsi, lp);
 		GurobiSolution solution = GurobiCommon.ejecucionGurobi(lp);
 		GurobiCommon.imprimeSolucion(solution);
 	}

@@ -31,7 +31,6 @@ public class SolucionAlmacen {
 	private SolucionAlmacen(List<Integer> ls) {
 		this.solucion = new HashMap<>();
 		int totalProductos = DatosAlmacenes.getNumProductos();
-		int totalAlmacenes = DatosAlmacenes.getNumAlmacenes();
 
 		for (Integer i = 0; i < ls.size(); i++) {
 			if (ls.get(i) > 0) {
@@ -48,10 +47,9 @@ public class SolucionAlmacen {
 
 	@Override
 	public String toString() {
-		return solucion.entrySet().stream()
-				.map(p -> "P" + p.getKey().producto() + ": Almacen " + p.getValue())
+		return solucion.entrySet().stream().map(p -> "P" + p.getKey().producto() + ": Almacen " + p.getValue())
 				.collect(Collectors.joining("\n",
-					"Reparto de productos y almacen en el que se coloca cada uno de ellos:\n",
-					String.format("\nProductos colocados: %d", numproductos)));
+						"Reparto de productos y almacen en el que se coloca cada uno de ellos:\n",
+						String.format("\nProductos colocados: %d", numproductos)));
 	}
 }

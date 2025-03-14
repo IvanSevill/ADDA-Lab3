@@ -1,9 +1,9 @@
-// -----------------------------------------------
+// ------------------------------------------------------------------
+
 head section
 
 Integer getNumAreas()
 Integer getNumTiposEntrada()
-
 Integer getCosteAsignacion(Integer i, Integer j)
 Integer getAforoMaximoArea(Integer j) 
 Integer getCuotaMinima(Integer i) 
@@ -11,12 +11,14 @@ Integer getCuotaMinima(Integer i)
 Integer n = getNumTiposEntrada()
 Integer m = getNumAreas()
 
-// -----------------------------------------------
+// ------------------------------------------------------------------
+
 goal section
 
 min sum(getCosteAsignacion(i, j) x[i, j], i in 0 .. n, j in 0 .. m)
 
-// -----------------------------------------------
+// ------------------------------------------------------------------
+
 constraints section
 
 // 1. Límite de aforo
@@ -25,6 +27,8 @@ sum(x[i, j], i in 0 .. n) <= getAforoMaximoArea(j), j in 0 .. m
 // 2. Entradas mínimas requeridas
 sum(x[i, j], j in 0 .. m) >= getCuotaMinima(i), i in 0 .. n
 
-// -----------------------------------------------
+// ------------------------------------------------------------------
 
 int x[i, j], i in 0 .. n, j in 0 .. m
+
+// ------------------------------------------------------------------

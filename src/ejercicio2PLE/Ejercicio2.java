@@ -10,20 +10,16 @@ public class Ejercicio2 {
 	private static final Integer EJERCICIO = 2;
 	private static final Integer NUMERO_DE_ARCHIVOS = 3;
 
-	private static Integer areas;
-	private static Integer cursos;
-	private static Integer presupuestoTotal;
-
 	public static Integer getNumCursos() {
-		return cursos;
+		return DatosCursos.getNumCursos();
 	}
 			
 	public static Integer getNumAreas() {
-		return areas;
+		return DatosCursos.getNumAreas();
 	}
 	
 	public static Integer getPresupuestoTotal() {
-		return presupuestoTotal;
+		return DatosCursos.getPresupuestoTotal();
 	}
 	
 	public static Integer getCoste(Integer i) {
@@ -49,10 +45,6 @@ public class Ejercicio2 {
 		String lp = "modeloslp/ejercicio" + EJERCICIO + "_" + num + ".lp";
 
 		DatosCursos.iniDatos(datosEntrada);
-
-		areas = DatosCursos.getNumAreas();
-		cursos = DatosCursos.getNumCursos();
-		presupuestoTotal = DatosCursos.getPresupuestoTotal();
 
 		GurobiCommon.imprimeCabecera(datosEntrada, EJERCICIO);
 		GurobiCommon.generaLpConAuxGrammar(Ejercicio2.class, lsi, lp);
