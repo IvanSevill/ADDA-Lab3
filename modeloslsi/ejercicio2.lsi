@@ -25,13 +25,13 @@ max sum(getRelevancia(i) x[i], i in 0 .. n)
 constraints section
 
 // Al menos una por area	
-sum( x[i], i in 0 .. n ) > 0		
+sum( x[i], i in 0 .. n | getArea(i) = j ) > 0, j in 0 .. m		
 
 // Tengo que tener más de tec o igual que de el resto																			
 sum(x[i], i in 0 .. n | getArea(i) = 0) - sum(x[i], i in 0 .. n | getArea(i) = j) >=0, j in 1 .. m
 
 // La media de duracion tiene que ser mayor de 20 
-sum(getDuracion(i) x[1], i in 0 .. m) - sum (20 x[1], i in 0 .. m) >= 0			
+sum(getDuracion(i) x[1], i in 0 .. m) - sum (20 x[i], i in 0 .. m) >= 0			
 
 // El coste de cada curso por el número de cursos tiene que ser menor que el presupuesto total 
 sum(getCoste(i) x[i], i in 0 .. n) <= presupuestoTotal							
